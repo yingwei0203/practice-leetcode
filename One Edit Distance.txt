@@ -1,0 +1,64 @@
+ public boolean isOneEditDistance(String s, String t) 
+    {
+        if(s.length()==t.length())
+        {
+            return isModified(s, t);
+        }
+        if(s.length()-t.length()==1)
+        {
+            return isDelete(s, t);
+        }
+        if(s.length()-t.length()==-1)
+        {
+            return isDelete(t, s);
+        }
+        return false;
+    }
+    private boolean isModified(String s, String t)
+    {
+        boolean modified = false;
+        for(int i=0; i<s.length(); i++)
+        {
+            if(s.charAt(i)!=t.charAt(i))
+            {
+                if(modified==true)
+                {
+                    return false;
+                }
+                modified = true;
+            }
+        }
+        return modified;
+    }
+    private boolean isDelete(String longer, String shorter)
+    {
+        for(int i=0; i<shorter.length(); i++)
+        {
+            if(longer.charAt(i)!=shorter.charAt(i))
+            {
+                return longer.substring(i+1).equals(shorter.substring(i));
+            }
+        }
+        return true;
+    }
+
+public boolean isOneEditDistance(String s, String t) {
+    if(Math.abs(s.length() - t.length()) > 1)  return false;
+    int i = 0, j = 0,err = 0;
+    while(i<s.length() && j<t.length())
+    {
+        if(s.charAt(i) != t.charAt(j))
+        {
+            err++;
+            if(err > 1)
+                return false;
+            if(s.length() > t.length())
+                j--;
+            else if(s.length() < t.length())
+                i--;
+        }
+        i++;
+        j++;
+    }
+    return (err == 1 || (err == 0 && t.length() != s.length()))? true: false;
+}
